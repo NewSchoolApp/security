@@ -1,0 +1,43 @@
+# compiled output
+serverless/.serverless
+*/node_modules
+
+# Enviroment Variables
+.env
+
+# Logs
+*/logs
+*/*.log
+*/npm-debug.log*
+*/yarn-debug.log*
+
+*/yarn-error.log*
+*/lerna-debug.log*
+
+# OS
+*/.DS_Store
+
+# Tests
+*/coverage
+*/.nyc_output
+
+# IDEs and editors
+.idea
+*/.idea
+*/.project
+*/.classpath
+*/.c9/
+*/*.launch
+*/.settings/
+*/*.sublime-workspace
+
+# IDE - VSCode
+*/.vscode
+
+# IDE - Theia
+*/.theia
+
+# env file
+*/.env
+*/upload
+*/test/coverage
