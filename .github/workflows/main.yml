@@ -29,10 +29,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Enter serverless folder
+        run: cd ./serverless
+
       - name: Install Dependencies
-        run: |
-          cd ./serverless
-          npm ci
+        run: npm ci
 
       - name: serverless deploy
         uses: serverless/github-action@master
