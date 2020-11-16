@@ -31,6 +31,9 @@ jobs:
 
       - name: Enter serverless folder
         run: cd ./serverless
+    
+      - name: ls folder
+        run: ls
 
       - name: Install Dependencies
         run: npm ci
