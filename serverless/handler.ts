@@ -1,4 +1,4 @@
-import * as axios from 'axios';
+import axios from 'axios';
 import * as jwt from 'jsonwebtoken';
 
 export async function authorizer(event, context, callback) {
@@ -6,13 +6,14 @@ export async function authorizer(event, context, callback) {
     console.log('Client token: ' + event.authorizationToken);
     console.log('Method ARN: ' + event.methodArn);
 
-    const jwtSecret = process.env.JWT_SECRET;
-    const [_, token] = event.authorizationToken.split(' ');
-    let decodedToken;
+    // const jwtSecret = process.env.JWT_SECRET;
+    // const [_, token] = event.authorizationToken.split(' ');
+    // let decodedToken;
+    let user;
     try {
-      decodedToken = jwt.verify(token, jwtSecret);
+      const response = await axios.get(process.env.SECURITY_TOKEN_DETAILS_URL);
+      user = response.data;
     } catch (e) {
-      console.log('pau na verificação', e);
       const policy = new AuthPolicy(principalId, awsAccountId, apiOptions);
       policy.denyAllMethods();
 
@@ -29,7 +30,7 @@ export async function authorizer(event, context, callback) {
     // 1. Call out to OAuth provider
     // 2. Decode a JWT token inline
     // 3. Lookup in a self-managed DB
-    var principalId = decodedToken.id
+    var principalId = user.id
 
     // you can send a 401 Unauthorized response to the client by failing like so:
     // callback("Unauthorized", null);
@@ -80,10 +81,9 @@ export async function authorizer(event, context, callback) {
 
     console.log('adding context to the authorizer response');
     authResponse.context = {
-      id: decodedToken.id,
-      role: decodedToken.role.name,
+      user: JSON.stringify(user),
     };
- 
+
     callback(null, authResponse);
 }
 
